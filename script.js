@@ -1,0 +1,49 @@
+// my list of amazing puns yeahhhh
+const puns = [
+    "I'm reading a book on anti-gravity. It's impossible to put down!",
+    "I would tell you a construction pun, but I'm still working on it.",
+    "Why don't scientists trust atoms? Because they make up everything!",
+    "I used to be a baker, but I couldn't make enough dough.",
+    "Did you hear about the guy who invented Lifesavers? He made a mint!",
+    "I'm on a seafood diet. I see food and I eat it.",
+    "Why did the scarecrow win an award? Because he was outstanding in his field!",
+    "I told my wife she was drawing her eyebrows too high. She looked surprised.",
+    "Why don't skeletons fight each other? They don't have the guts.",
+    "I would tell you a joke about an elevator, but it's an uplifting experience.",
+    "Lettuce celebrate the little wins!",
+    "You're doing grape!",
+    "Whisking you a wonderful day!",
+    "I tried debugging my sandwich... turns out it just need more RAM-en!",
+    "My code ran on the first try; must be a Hack Club miracle!",
+    "Don't go bacon my heart, I couldn't if I fried!",
+    "You're souper awesome!"
+];
+
+// elements
+const punText = document.getElementById("pun-text");
+
+// get todays date
+function getToday() {
+    return new Date().toISOString().split("T")[0];
+}
+
+// load or generate pun based off local save stuff
+function loadDailyPun() {
+    const savedPun = localStorage.getItem("pun");
+    const savedDate = localStorage.getItem("punDate");
+    const today = getToday();
+
+    if (savedPun && savedDate === today) {
+        punText.textContent = savedPun;
+    } else {
+        const newPun = puns[Math.floor(Math.random() * puns.length)];
+        punText.textContent = newPun;
+
+        // save my new awesome pun
+        localStorage.setItem("pun", newPun);
+        localStorage.setItem("punDate", today);
+    }
+}
+
+// run when silly people open my stupid website
+loadDailyPun();
