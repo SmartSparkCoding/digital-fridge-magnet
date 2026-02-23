@@ -1,6 +1,6 @@
 # A Digital Fridge Magnet
 
-<img href="blah.png" alt="cool fridge">
+<img src="blah.png" alt="cool fridge">
 
 A digital fridge magnet. Created by me. Idea from the Flavortown Chefs.
 
