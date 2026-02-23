@@ -45,6 +45,34 @@ function loadDailyPun() {
     }
 }
 
+// allow u to drag the magnet yay
+
+const magnet = document.getElementById("magnet");
+
+let offsetX = 0;
+let offsetY = 0;
+let isDragging = false;
+
+magnet.addEventListener("pointerdown", (e) => {
+    isDragging = true;
+    offsetX = e.clientX - magnet.offsetLeft;
+    offsetY = e.clientY - magnet.offsetTop;
+    magnet.setPointerCapture(e.pointerId);
+});
+
+magnet.addEventListener("pointermove", (e) => {
+    if (!isDragging) return;
+    magnet.style.left = (e.clientX - offsetX) + "px";
+    magnet.style.top = (e.clientY - offsetY) + "px";
+    magnet.style.transform = "none"; // remove centering transform while dragging
+});
+
+magnet.addEventListener("pointerup", (e) => {
+    isDragging = false;
+});
+
+// time until next pun logic
+
 function updatePunTimer() {
     const now = new Date();
     const tomorrow = new Date();
