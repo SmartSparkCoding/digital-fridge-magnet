@@ -88,6 +88,23 @@ function updatePunTimer() {
         `New pun in ${hours}h ${minutes}m ${seconds}s`;
 }
 
+// --- Shake detection for fun Easter egg ---
+let lastX = 0;
+let lastTime = 0;
+
+window.addEventListener("mousemove", (e) => {
+    const now = Date.now();
+    const speed = Math.abs(e.clientX - lastX) / (now - lastTime);
+
+    if (speed > 1.5) {
+        magnet.classList.add("shake");
+        setTimeout(() => magnet.classList.remove("shake"), 300);
+    }
+
+    lastX = e.clientX;
+    lastTime = now;
+});
+
 // run when silly people open my stupid website
 loadDailyPun();
 
