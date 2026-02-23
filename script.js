@@ -22,6 +22,8 @@ const puns = [
 // elements
 const punText = document.getElementById("pun-text");
 
+let punClickCount = 0;
+
 // get todays date
 function getToday() {
     return new Date().toISOString().split("T")[0];
@@ -45,29 +47,43 @@ function loadDailyPun() {
     }
 }
 
+function forceNewPun() {
+    const newPun = puns[Math.floor(Math.random() * puns.length)];
+    punText.textContent = newPun;
+
+    // overwrite saved pun + date
+    localStorage.setItem("pun", newPun);
+    localStorage.setItem("punDate", getToday());
+
+    // optional: shake the magnet when forced
+    const magnet = document.getElementById("magnet");
+    magnet.classList.add("shake");
+    setTimeout(() => magnet.classList.remove("shake"), 300);
+}
+
 // allow u to drag the magnet yay
 
-const magnet = document.getElementById("magnet");
+const magnetWrapper = document.getElementById("magnet-wrapper");
 
 let offsetX = 0;
 let offsetY = 0;
 let isDragging = false;
 
-magnet.addEventListener("pointerdown", (e) => {
+magnetWrapper.addEventListener("pointerdown", (e) => {
     isDragging = true;
-    offsetX = e.clientX - magnet.offsetLeft;
-    offsetY = e.clientY - magnet.offsetTop;
-    magnet.setPointerCapture(e.pointerId);
+    offsetX = e.clientX - magnetWrapper.offsetLeft;
+    offsetY = e.clientY - magnetWrapper.offsetTop;
+    magnetWrapper.setPointerCapture(e.pointerId);
 });
 
-magnet.addEventListener("pointermove", (e) => {
+magnetWrapper.addEventListener("pointermove", (e) => {
     if (!isDragging) return;
-    magnet.style.left = (e.clientX - offsetX) + "px";
-    magnet.style.top = (e.clientY - offsetY) + "px";
-    magnet.style.transform = "none"; // remove centering transform while dragging
+    magnetWrapper.style.left = (e.clientX - offsetX) + "px";
+    magnetWrapper.style.top = (e.clientY - offsetY) + "px";
+    magnetWrapper.style.transform = "none"; // stop centering while dragging
 });
 
-magnet.addEventListener("pointerup", (e) => {
+magnetWrapper.addEventListener("pointerup", () => {
     isDragging = false;
 });
 
@@ -88,22 +104,33 @@ function updatePunTimer() {
         `New pun in ${hours}h ${minutes}m ${seconds}s`;
 }
 
-// --- Shake detection for fun Easter egg ---
-let lastX = 0;
-let lastTime = 0;
+const punTimer = document.getElementById("pun-timer");
 
-window.addEventListener("mousemove", (e) => {
-    const now = Date.now();
-    const speed = Math.abs(e.clientX - lastX) / (now - lastTime);
-
-    if (speed > 1.5) {
-        magnet.classList.add("shake");
-        setTimeout(() => magnet.classList.remove("shake"), 300);
+document.addEventListener("keydown", (e) => {
+    if (e.key.toLowerCase() === "m") {
+        forceNewPun();
     }
-
-    lastX = e.clientX;
-    lastTime = now;
 });
+
+// --- Random shake every 5–15 seconds for funsiesnriwhriweqhriwqher---
+function randomShake() {
+    const magnetWrapper = document.getElementById("magnet-wrapper");
+
+    // Add shake class
+    magnet.classList.add("shake");
+
+    // Remove it after animation ends
+    setTimeout(() => {
+        magnet.classList.remove("shake");
+    }, 300);
+
+    // Schedule the next shake
+    const nextTime = Math.random() * (15000 - 5000) + 5000; // 5–15 seconds
+    setTimeout(randomShake, nextTime);
+}
+
+// Start the first shake
+setTimeout(randomShake, 5000);
 
 // run when silly people open my stupid website
 loadDailyPun();
