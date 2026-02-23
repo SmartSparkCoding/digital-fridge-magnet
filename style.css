@@ -1,0 +1,40 @@
+.bungee-regular {
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+body {
+    font-family: "Bungee", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #d1d5db; /* Tailwind's gray-100 */
+}
+
+main {
+    flex: 1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between; /* pushes left + right apart */
+    align-items: center;            /* vertically centers them */
+    padding: 20px;
+}
+
+.title-left {
+    margin: 0;
+    text-align: left;
+}
+
+.title-right {
+    margin: 0;
+    text-align: right;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+}
