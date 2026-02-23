@@ -45,5 +45,25 @@ function loadDailyPun() {
     }
 }
 
+function updatePunTimer() {
+    const now = new Date();
+    const tomorrow = new Date();
+    tomorrow.setHours(24, 0, 0, 0); // midnight
+
+    const diff = tomorrow - now;
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("pun-timer").textContent =
+        `New pun in ${hours}h ${minutes}m ${seconds}s`;
+}
+
 // run when silly people open my stupid website
 loadDailyPun();
+
+// refresh the pun timer every second
+
+setInterval(updatePunTimer, 1000);
+updatePunTimer();
